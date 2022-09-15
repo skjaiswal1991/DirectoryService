@@ -117,21 +117,26 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
             //   if(response)
             //     imgDetails  = await probe(`https://www.rateusonline.com/wp-content/sabai/File/files/${ImageD[0].file_name}`);
             // }
-            agreegationObject.find((error,agreegate)=>{
-              if(error) new error_handler(500,'something whent wrong!!',error)
-             
-                reviewObject.find((error,review)=>{
-                    if(error) new error_handler(500,'something whent wrong!!',error)
-                      
-                      let data = {...dir,agreegate,review,imgDetails}
-                      res.status(200).send(data)
-                },
-                {businessId:dir[0]._id},
-                true)
-
-            },
-            {businessId:dir[0]._id},
-            true)
+            try{
+              agreegationObject.find((error,agreegate)=>{
+                if(error) new error_handler(500,'something whent wrong!!',error)
+               
+                  reviewObject.find((error,review)=>{
+                      if(error) new error_handler(500,'something whent wrong!!',error)
+                        
+                        let data = {...dir,agreegate,review,imgDetails}
+                        res.status(200).send(data)
+                  },
+                  {businessId:dir[0]._id},
+                  true)
+  
+              },
+              {businessId:dir[0]._id},
+              true)
+            }catch((error)=>{
+              new error_handler(500,'something whent wrong!!',error)
+            })
+           
           
       },
 
