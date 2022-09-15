@@ -11,4 +11,5 @@ export interface ICategoryInterface extends Document {
   category_metadesc:String,
   created_at: Date;
   updated_at: Date;
+  _id:string;
 }

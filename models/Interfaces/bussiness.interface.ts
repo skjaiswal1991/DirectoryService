@@ -40,4 +40,5 @@ export interface IBussinessInterface extends Document{
     fulldescription: String;
     created_at:Date;
     updated_at:Date;
+    _id:String;
 }

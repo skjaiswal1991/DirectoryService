@@ -107,9 +107,9 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
   console.log("requeest at",body);
   bussinesObject.find(async(error,dir)=>{ 
       if(error) new error_handler(500,'something whent wrong!!',error)
-           console.log("Data Response",dir);
-            let dataDir = JSON.parse(JSON.stringify(dir));
-            let ImageD = dataDir[0].images;
+           //console.log("Data Response",dir);
+            //let dataDir = JSON.parse(JSON.stringify(dir));
+            //let ImageD = dataDir[0].images;
             let imgDetails = {}
             //console.log("image",ImageD[0].file_name);
             // if(ImageD && ImageD.length > 0 && ImageD[0].file_name){
