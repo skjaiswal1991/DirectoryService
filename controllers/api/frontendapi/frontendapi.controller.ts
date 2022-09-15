@@ -117,7 +117,7 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
             //   if(response)
             //     imgDetails  = await probe(`https://www.rateusonline.com/wp-content/sabai/File/files/${ImageD[0].file_name}`);
             // }
-            try{
+            if(dir && dir.length > 0 )
               agreegationObject.find((error,agreegate)=>{
                 if(error) new error_handler(500,'something whent wrong!!',error)
                
@@ -133,9 +133,7 @@ getDirectoryDataBySlug = (req:Request,res:Response)=>{
               },
               {businessId:dir[0]._id},
               true)
-            }catch((error)=>{
-              new error_handler(500,'something whent wrong!!',error)
-            })
+            
            
           
       },
