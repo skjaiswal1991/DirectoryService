@@ -26,6 +26,7 @@ export class EmailService {
         html: content,
         attachments:[]
       };
+       console.log("mailOptions",mailOptions);
 
       if (attachmentPath) {
           mailOptions.attachments = [
@@ -35,12 +36,14 @@ export class EmailService {
           ]
       }
   
-      const sendEmai = await transporter.sendMail(mailOptions);
+      const sendEmai = await transporter.sendMail(mailOptions,(error,res)=>{
+        if (error)
+        console.log(error, 'error while sending email');
   
-      if (sendEmai.error)
-        console.log(sendEmai.error, 'error while sending email');
+       return sendEmai;
+      });
   
-       return sendEmai
+      
   
       //return true;
     } catch (err) {

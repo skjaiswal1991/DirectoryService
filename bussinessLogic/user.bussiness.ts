@@ -1,21 +1,21 @@
-import { BussinessRepository } from "../repository/bussiness.repository";
-import { IBussiness } from "./interfaces/bussiness.bussiness.interface";
-import { IBussinessInterface } from "../models/Interfaces/bussiness.interface";
+import { UserRepository } from "../repository/user.repository";
+import { IUserBussiness } from "./interfaces/user.bussiness.interface";
+import { IUserInterface } from "../models/Interfaces/user.interface";
 
-export default class UserBussiness implements IBussiness {
-  private _bussinessRepository: BussinessRepository;
+export default class UserBussiness implements IUserBussiness {
+  private _bussinessRepository: UserRepository;
 
   constructor() {
-    this._bussinessRepository = new BussinessRepository();
+    this._bussinessRepository = new UserRepository();
   }
 
-  create(item: IBussinessInterface, callback: (error: any, result: any) => void) {
+  create(item: IUserInterface, callback: (error: any, result: any) => void) {
     this._bussinessRepository.create(item, callback);
   }
 
   update(
     _id: string,
-    item: IBussinessInterface,
+    item: IUserInterface,
     callback: (error: any, result: any) => void
   ) {
     this._bussinessRepository.findOne(_id, (err, res) => {
@@ -25,7 +25,7 @@ export default class UserBussiness implements IBussiness {
   }
 
   find(
-    callback: (error: any, result: Array<IBussinessInterface>) => void,
+    callback: (error: any, result: Array<IUserInterface>) => void,
     queryObject = {},
     withOption: boolean = false
   ) {
@@ -36,7 +36,7 @@ export default class UserBussiness implements IBussiness {
 
  
 
-  findOne(_id: string, callback: (error: any, result: IBussinessInterface) => void) {
+  findOne(_id: string, callback: (error: any, result: IUserInterface) => void) {
     this._bussinessRepository.findOne(_id, callback);
   }
 

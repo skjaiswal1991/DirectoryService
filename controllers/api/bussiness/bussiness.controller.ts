@@ -1,3 +1,5 @@
+import UserBussiness  from '../../../bussinessLogic/user.bussiness';
+import { EmailService } from '../../../bussinessLogic/email.bussiness';
 import { Request, Response, Router } from "express";
 import Auth from "../../../server/middlewares/authMiddlewares/auth.base.middlware"
 import {validationResult} from "express-validator";
@@ -195,10 +197,12 @@ class Bussiness {
 
   public addOneBussiness = async (req: Request, res: Response, next) => {
     const errors = validationResult(req);
+    const EmailSer = new EmailService()
     if (!errors.isEmpty()){
       return next(new error_handler(422,'something whent wrong!!',errors));
     }else{
       const businessObj =  new BussinesObject();
+      const userObj = new UserBussiness()
       // businessObj.createOnlyOne(req.body,(err,result)=>{
         //console.log("request from the API",req.body)
         //debugger;
@@ -208,21 +212,45 @@ class Bussiness {
       req.body.exp = req.body.user.exp 
       //console.log("After changes request from the API",req.body) 
 
-      businessObj.find((err, result) => {
+      businessObj.find((err, userresult) => {
             if( err instanceof Error){
               return next(new error_handler(401,err,err));
             }else{
               //console.log("After saving data",result);
               //console.log(result instanceof Array,result.length)
              
-               if( result instanceof Array  &&  result.length == 0){
+               if( userresult instanceof Array  &&  userresult.length == 0){
                 //console.log(result instanceof Array  &&  result)
              
                   businessObj.create(req.body,(err,result)=>{
                   if(err){
                     new error_handler(500,'something whent wrong!!',err)
                   }
-                  res.status(200).send(result);
+                  userObj.find((erro,usrinfo)=>{
+                    
+                    console.log('userinfo',usrinfo);
+                    let dataSa = JSON.parse(JSON.stringify(usrinfo));
+                    let emailTo =  dataSa[0].email;
+                    let subject = "Welcome In Rateusonline";
+                    let content = `<div>Dear ${dataSa[0].fullName || ''}, 
+                      <p>We are delighted to have you on board with us. We are glad to see that you’ve registered on our website with your business information and entrusted us with this service to reach as many potential customers as possible all over UK.</p>
+                      <p>Request you to kindly verify your listing and confirm that it has all the information you wish to share. Once you confirm the details, we will upload the same for all your customers to see. The verification process will help us ensure that we only share information and details approved by you and which will help your business thrive.</p>
+                      <p>Please feel free to contact us for any further query/feedback. Have a great day 😊 </p> 
+                      Regards,<br>
+                      RateUsOnline Team  
+                                  </div>`;
+                    // let dataSa = JSON.parse(JSON.stringify(usrinfo));
+                    // console.log(dataSa,"usrinfo[0]");
+
+                    let response = EmailSer.sendEmail(emailTo,content,subject,false)
+                    res.status(200).send(result);
+                  // EmailSer.sendEmail()
+
+                  },{_id:`${req.body.user.user._id}`},true)
+
+                
+                  // console.log("userresult",userresult,"req.body",req.body)
+                  // 
                  });
                }else{
                   res.status(403).send(err);

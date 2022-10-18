@@ -4,6 +4,7 @@ export interface IUserInterface extends Document {
   fullName: String;
   phoneNumber: Number;
   role: Schema.Types.ObjectId;
+  email:String;
   account_number: Number;
   IFSC: Number;
   NameInAccount: String;
